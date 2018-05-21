@@ -37,6 +37,12 @@ class Html
     public function __construct(Request $request)
     {
         $this->request = $request;
+
+        if (!self::hasMacro('class')) {
+            self::macro('class', function($classes) use ($request) {
+               return self::class_($classes);
+            });
+        }
     }
 
     /**
@@ -57,6 +63,7 @@ class Html
      * @param string|null $text
      *
      * @return \Spatie\Html\Elements\I
+     * @throws \Spatie\Html\Exceptions\InvalidHtml
      */
     public function i($contents = null)
     {
@@ -82,7 +89,7 @@ class Html
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function class($classes): Htmlable
+    public static function class_($classes)
     {
         if ($classes instanceof Collection) {
             $classes = $classes->toArray();
@@ -264,6 +271,7 @@ class Html
      * @param \Spatie\Html\HtmlElement|string|null $contents
      *
      * @return \Spatie\Html\Elements\Legend
+     * @throws \Spatie\Html\Exceptions\InvalidHtml
      */
     public function legend($contents = null)
     {
@@ -462,7 +470,7 @@ class Html
      *
      * @return \Spatie\Html\Elements\Form
      */
-    public function modelForm($model, $method = 'POST', $action = null): Form
+    public function modelForm($model, $method = 'POST', $action = null)
     {
         $this->model($model);
 
@@ -482,7 +490,7 @@ class Html
     /**
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function closeModelForm(): Htmlable
+    public function closeModelForm()
     {
         $this->endModel();
 
@@ -507,7 +515,10 @@ class Html
         // If there's no default value provided, and the html builder currently
         // has a model assigned, try to retrieve a value from the model.
         if (empty($value) && $this->model) {
-            $value = data_get($this->model, $name) ?? '';
+            $value = data_get($this->model, $name);
+            if (null === $value) {
+               $value = '';
+            }
         }
 
         return $this->request->old($name, $value);

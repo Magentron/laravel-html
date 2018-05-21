@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-html` will be documented in this file.
 
+## 0.5.6 - 2018-05-21
+- PHP 5.6 support and optional strict value checks for Select values as **magentron/laravel-html**
+
 ## 2.19.7 - 2018-04-30
 - Allow radio input check "0" value
 

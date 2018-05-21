@@ -6,7 +6,10 @@ use Exception;
 
 class MissingTag extends Exception
 {
-    public static function onClass($className): self
+    /**
+     * @return self
+     */
+    public static function onClass($className)
     {
         return new self("Class {$className} has nog `\$tag` property");
     }

@@ -3,6 +3,7 @@
 namespace Spatie\Html;
 
 use BadMethodCallException;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\Html\Exceptions\MissingTag;
@@ -11,7 +12,7 @@ use Illuminate\Support\Traits\Macroable;
 use Spatie\Html\Exceptions\InvalidChild;
 use Illuminate\Contracts\Support\Htmlable;
 
-abstract class BaseElement implements Htmlable, HtmlElement
+abstract class BaseElement implements Htmlable, HtmlElement, Arrayable
 {
     use Macroable {
         __call as __macro_call;
@@ -39,6 +40,20 @@ abstract class BaseElement implements Htmlable, HtmlElement
     public static function create()
     {
         return new static();
+    }
+
+    /**
+     * Get the HTML element (tag, attributes, children) as a plain array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'tag'        => (string) $this->tag,
+            'attributes' => $this->attributes->toArray(),
+            'children'   => $this->children->toArray(),
+        ];
     }
 
     /**
@@ -110,7 +125,7 @@ abstract class BaseElement implements Htmlable, HtmlElement
      *
      * @return static
      */
-    public function class($class)
+    public function class_($class)
     {
         return $this->addClass($class);
     }
@@ -305,8 +320,9 @@ abstract class BaseElement implements Htmlable, HtmlElement
      *
      * @param bool $condition
      * @param callable $callback
+     * @return BaseElement|$this
      */
-    public function if(bool $condition, callable $callback)
+    public function if_($condition, callable $callback)
     {
         if ($condition) {
             return $callback($this);
@@ -324,9 +340,9 @@ abstract class BaseElement implements Htmlable, HtmlElement
             ? '<'.$this->tag.'>'
             : "<{$this->tag} {$this->attributes->render()}>";
 
-        $children = $this->children->map(function ($child): string {
+        $children = $this->children->map(function ($child) {
             if ($child instanceof HtmlElement) {
-                return $child->render();
+                return (string) $child->render();
             }
 
             if (is_null($child)) {
@@ -365,7 +381,10 @@ abstract class BaseElement implements Htmlable, HtmlElement
         );
     }
 
-    public function isVoidElement(): bool
+    /**
+     * @return boolean
+     */
+    public function isVoidElement()
     {
         return in_array($this->tag, [
             'area', 'base', 'br', 'col', 'embed', 'hr',
@@ -388,6 +407,9 @@ abstract class BaseElement implements Htmlable, HtmlElement
     {
         if (ends_with($name, 'If')) {
             $name = str_replace('If', '', $name);
+			if ('class' === $name) {
+				$name = 'class_';
+			}
             if (! method_exists($this, $name)) {
                 throw new BadMethodCallException("$name is not a valid method for this class");
             }
@@ -399,6 +421,13 @@ abstract class BaseElement implements Htmlable, HtmlElement
                 $this;
         }
 
+        foreach (['class', 'for', 'if'] as $keyword) {
+            if ($keyword === $name && method_exists($this, $keyword . '_')) {
+                $name = $keyword . '_';
+                return $this->{$name}(...$arguments);
+            }
+        }
+
         return $this->__macro_call($name, $arguments);
     }
 
@@ -408,17 +437,26 @@ abstract class BaseElement implements Htmlable, HtmlElement
         $this->children = clone $this->children;
     }
 
-    public function __toString(): string
+    /**
+     * @return string
+     */
+    public function __toString()
     {
-        return $this->render();
+        return (string) $this->render();
     }
 
-    public function toHtml(): string
+    /**
+     * @return string
+     */
+    public function toHtml()
     {
-        return $this->render();
+        return (string) $this->render();
     }
 
-    protected function parseChildren($children, $mapper = null): Collection
+    /**
+     * @return Collection
+     */
+    protected function parseChildren($children, $mapper = null)
     {
         if ($children instanceof HtmlElement) {
             $children = [$children];

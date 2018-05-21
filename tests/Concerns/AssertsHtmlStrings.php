@@ -6,7 +6,11 @@ use DOMDocument;
 
 trait AssertsHtmlStrings
 {
-    protected function assertHtmlStringEqualsHtmlString(string $expectedHtml, string $actualHtml)
+	/**
+	 * @param string $expectedHtml
+	 * @param string $actualHtml
+	 */
+    protected function assertHtmlStringEqualsHtmlString($expectedHtml, $actualHtml)
     {
         $this->assertEquals(
             $this->convertToDomDocument($expectedHtml),
@@ -18,7 +22,12 @@ trait AssertsHtmlStrings
         );
     }
 
-    protected function convertToDomDocument(string $html): DOMDocument
+    /**
+	 * @param string $html
+	 *
+     * @return DOMDocument
+     */
+    protected function convertToDomDocument($html)
     {
         $html = preg_replace('/>\s+</', '><', $html);
 

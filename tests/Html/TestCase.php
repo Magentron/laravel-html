@@ -31,7 +31,7 @@ abstract class TestCase extends \Spatie\Html\Test\TestCase
             ->shouldReceive('old')
             ->withAnyArgs()
             ->andReturnUsing(function ($key, $value = null) {
-                return $this->session[$key] ?? $value;
+                return isset($this->session[$key]) ? $this->session[$key] : $value;
             });
 
         $session = Mockery::mock(Session::class)

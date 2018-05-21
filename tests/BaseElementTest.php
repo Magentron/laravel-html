@@ -10,6 +10,13 @@ use Spatie\Html\Exceptions\MissingTag;
 use Spatie\Html\Exceptions\InvalidHtml;
 use Spatie\Html\Exceptions\InvalidChild;
 
+class class_without_a_tag_name extends BaseElement {
+};
+
+class class_void_element_img extends BaseElement {
+    protected $tag = 'img';
+};
+
 class BaseElementTest extends TestCase
 {
     /** @test */
@@ -17,8 +24,7 @@ class BaseElementTest extends TestCase
     {
         $this->expectException(MissingTag::class);
 
-        new class extends BaseElement {
-        };
+        new class_without_a_tag_name;
     }
 
     /** @test */
@@ -221,9 +227,7 @@ class BaseElementTest extends TestCase
     {
         $this->expectException(InvalidHtml::class);
 
-        $img = new class extends BaseElement {
-            protected $tag = 'img';
-        };
+        $img = new class_void_element_img;
 
         $img->text('Hi');
     }
@@ -389,7 +393,12 @@ class BaseElementTest extends TestCase
         $this->assertHtmlStringEqualsHtmlString('<div class="foo"></div>', $div);
     }
 
-    public function wrapInDiv(string $text): Div
+    /**
+	 * @param string $text
+	 *
+     * @return Div
+     */
+    public function wrapInDiv($text)
     {
         return Div::create()->text($text);
     }

@@ -87,10 +87,18 @@ class Attributes
             return implode(' ', $this->classes);
         }
 
-        return $this->attributes[$attribute] ?? $fallback;
+        if (isset($this->attributes[$attribute])) {
+            return $this->attributes[$attribute];
+        }
+        return $fallback;
     }
 
-    public function hasAttribute(string $attribute): bool
+    /**
+     * @param string $attribute
+     *
+     * @return boolean
+     */
+    public function hasAttribute($attribute)
     {
         return array_key_exists($attribute, $this->attributes);
     }

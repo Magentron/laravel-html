@@ -1,11 +1,15 @@
 # Painless html generation
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-html.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-html)
+This is a fork of [spatie/laravel-html](https://github.com/spatie/laravel-html)
+by [Jeroen Derks](https://www.phpfreelancer.nl), a.k.a [Magentron](https://github.com/Magentron).
+This fork was created in order to have PHP 5.6.x compatibility.
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/magentron/laravel-html.svg?style=flat-square)](https://packagist.org/packages/magentron/laravel-html)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/laravel-html/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-html)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-html.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-html)
-[![StyleCI](https://styleci.io/repos/78114062/shield?branch=master)](https://styleci.io/repos/78114062)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-html.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-html)
+[![Build Status](https://img.shields.io/travis/magentron/laravel-html/master.svg?style=flat-square)](https://travis-ci.org/magentron/laravel-html)
+[![Quality Score](https://img.shields.io/scrutinizer/g/magentron/laravel-html.svg?style=flat-square)](https://scrutinizer-ci.com/g/magentron/laravel-html)
+[![StyleCI](https://styleci.io/repos/134321051/shield?branch=master)](https://styleci.io/repos/134321051)
+[![Total Downloads](https://img.shields.io/packagist/dt/magentron/laravel-html.svg?style=flat-square)](https://packagist.org/packages/magentron/laravel-html)
 
 This package helps you generate HTML using a clean, simple and easy to read API. All elements can be dynamically generated and put together. The HTML builder helps you generate dynamically assigned form elements based on your selected model, the session or a default value.
 
@@ -88,7 +92,7 @@ All postcards are published [on our website](https://spatie.be/en/opensource/pos
 You can install the package via composer:
 
 ``` bash
-composer require spatie/laravel-html
+composer require magentron/laravel-html
 ```
 
 Next, you must install the service provider:
