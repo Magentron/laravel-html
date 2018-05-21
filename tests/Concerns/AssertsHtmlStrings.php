@@ -6,10 +6,10 @@ use DOMDocument;
 
 trait AssertsHtmlStrings
 {
-	/**
-	 * @param string $expectedHtml
-	 * @param string $actualHtml
-	 */
+    /**
+     * @param string $expectedHtml
+     * @param string $actualHtml
+     */
     protected function assertHtmlStringEqualsHtmlString($expectedHtml, $actualHtml)
     {
         $this->assertEquals(
@@ -23,8 +23,8 @@ trait AssertsHtmlStrings
     }
 
     /**
-	 * @param string $html
-	 *
+     * @param string $html
+     *
      * @return DOMDocument
      */
     protected function convertToDomDocument($html)

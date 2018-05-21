@@ -22,7 +22,6 @@ use Illuminate\Support\HtmlString;
 use Spatie\Html\Elements\Fieldset;
 use Spatie\Html\Elements\Textarea;
 use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Support\Htmlable;
 
 class Html
 {
@@ -38,9 +37,9 @@ class Html
     {
         $this->request = $request;
 
-        if (!self::hasMacro('class')) {
-            self::macro('class', function($classes) use ($request) {
-               return self::class_($classes);
+        if (! self::hasMacro('class')) {
+            self::macro('class', function ($classes) use ($request) {
+                return self::class_($classes);
             });
         }
     }
@@ -517,7 +516,7 @@ class Html
         if (empty($value) && $this->model) {
             $value = data_get($this->model, $name);
             if (null === $value) {
-               $value = '';
+                $value = '';
             }
         }
 

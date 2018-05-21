@@ -3,7 +3,6 @@
 namespace Spatie\Html;
 
 use BadMethodCallException;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\Html\Exceptions\MissingTag;
@@ -11,6 +10,7 @@ use Spatie\Html\Exceptions\InvalidHtml;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\Html\Exceptions\InvalidChild;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\Support\Arrayable;
 
 abstract class BaseElement implements Htmlable, HtmlElement, Arrayable
 {
@@ -382,7 +382,7 @@ abstract class BaseElement implements Htmlable, HtmlElement, Arrayable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isVoidElement()
     {
@@ -407,9 +407,9 @@ abstract class BaseElement implements Htmlable, HtmlElement, Arrayable
     {
         if (ends_with($name, 'If')) {
             $name = str_replace('If', '', $name);
-			if ('class' === $name) {
-				$name = 'class_';
-			}
+            if ('class' === $name) {
+                $name = 'class_';
+            }
             if (! method_exists($this, $name)) {
                 throw new BadMethodCallException("$name is not a valid method for this class");
             }
@@ -422,8 +422,9 @@ abstract class BaseElement implements Htmlable, HtmlElement, Arrayable
         }
 
         foreach (['class', 'for', 'if'] as $keyword) {
-            if ($keyword === $name && method_exists($this, $keyword . '_')) {
-                $name = $keyword . '_';
+            if ($keyword === $name && method_exists($this, $keyword.'_')) {
+                $name = $keyword.'_';
+
                 return $this->{$name}(...$arguments);
             }
         }

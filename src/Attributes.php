@@ -90,13 +90,14 @@ class Attributes
         if (isset($this->attributes[$attribute])) {
             return $this->attributes[$attribute];
         }
+
         return $fallback;
     }
 
     /**
      * @param string $attribute
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAttribute($attribute)
     {

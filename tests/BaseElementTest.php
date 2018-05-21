@@ -10,12 +10,14 @@ use Spatie\Html\Exceptions\MissingTag;
 use Spatie\Html\Exceptions\InvalidHtml;
 use Spatie\Html\Exceptions\InvalidChild;
 
-class class_without_a_tag_name extends BaseElement {
-};
+class class_without_a_tag_name extends BaseElement
+{
+}
 
-class class_void_element_img extends BaseElement {
+class class_void_element_img extends BaseElement
+{
     protected $tag = 'img';
-};
+}
 
 class BaseElementTest extends TestCase
 {
@@ -394,8 +396,8 @@ class BaseElementTest extends TestCase
     }
 
     /**
-	 * @param string $text
-	 *
+     * @param string $text
+     *
      * @return Div
      */
     public function wrapInDiv($text)
